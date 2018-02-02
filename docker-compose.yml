@@ -1,0 +1,45 @@
+version: "2"
+
+services:
+    web:
+        image: nginx:latest
+        ports:
+            - "80:80"
+        volumes:
+            - ~/Desktop/ci3/CodeIgniter:/ci
+            - ~/Desktop/ci3/ci-site/nginx.conf:/etc/nginx/conf.d/default.conf
+        links:
+            - php
+        networks:
+            - code-network
+    php:
+        image: cyrilchiu/travostyle-php:latest
+        volumes:
+            - ~/Desktop/ci3/CodeIgniter:/ci
+        networks:
+            - code-network
+        expose:
+            - "9000"
+        links:
+            - db
+        environment:
+            - "DB_HOST=db"
+            - "DB_DATABASE="
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        ports:
+            - "8080:80"
+        links:
+            - db:db
+        networks:
+            - code-network
+    db:
+        image: mariadb:10.1.17
+        environment:
+            - MYSQL_ROOT_PASSWORD=e04el3qu4
+        networks:
+            - code-network
+
+networks:
+    code-network:
+        driver: bridge
