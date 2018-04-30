@@ -13,7 +13,7 @@ services:
         networks:
             - code-network
     php:
-        image: cyrilchiu/travostyle-php:latest
+        image: php:latest
         volumes:
             - ~/Desktop/ci3/CodeIgniter:/ci
         networks:
